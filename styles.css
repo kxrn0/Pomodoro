@@ -1,0 +1,269 @@
+:root.light {
+    --body-bg: azure;
+    --nav-bg: rgb(223, 105, 115);
+    --theme-img: url("images/sun.svg");
+    --settings-filter: none;
+    --nav-toggle-bg: yellow;
+    --nav-span-filter: none;
+    --color: black;
+    --modal-bg: rgb(212, 244, 244, .5);
+    --modal-content-bg: rgb(255, 255, 255);
+    --save-button-bg: rgb(153, 175, 215);
+    --save-button-color: rgb(22, 25, 22);
+}
+
+:root.dark {
+    --body-bg: rgb(91, 5, 5);
+    --nav-bg: rgb(149, 10, 65);
+    --theme-img: url("images/moon.svg");
+    --settings-filter: invert(94%) sepia(40%) saturate(3535%) hue-rotate(171deg) brightness(114%) contrast(97%);
+    --nav-toggle-bg: purple;
+    --nav-span-filter: invert(94%) sepia(40%) saturate(3535%) hue-rotate(171deg) brightness(114%) contrast(97%);
+    --color: azure;
+    --modal-bg: rgb(38, 35, 35, .5);
+    --modal-content-bg: rgb(45, 27, 45);
+    --save-button-bg: rgb(48, 24, 127);
+    --save-button-color: azure;
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Helvetica, monopace;
+}
+
+body {
+    background: var(--body-bg);
+    color: var(--color);
+    transition: background-color .33s, color .33s;
+    position: relative;
+}
+
+.toggle {
+    position: relative;
+    width: 48px;
+    height: 24px;
+    border-radius: 12px;
+    background: rgb(28, 35, 93);
+    transition: background-color .33s;
+}
+
+.toggle input[type="checkbox"] {
+    appearance: none;
+    width: 100%;
+    height: 100%;
+}
+
+.toggle span {
+    position: absolute; 
+    width: 18px;
+    height: 18px;
+    top: 3px;
+    left: 3px;
+    border-radius: 50%;
+    background: #cbfbfb;
+    transition: all .33s;
+    pointer-events: none;
+}
+
+.toggle input[type="checkbox"]:checked + span {
+    transform: translateX(24px);
+}
+
+/* NAV BAR */
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    background: var(--nav-bg);
+    transition: background-color 1s;
+}
+
+.navbar .logo {
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.navbar .logo img {
+    width: 75px;
+}
+
+.nav-controls {
+    width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.nav-controls .settings-button {
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    background-image: url("images/settings.svg");
+    background-size: cover;
+    border: none;
+    transition: transform .33s, filter .33s;
+    filter: var(--settings-filter);
+}
+
+.nav-controls .settings-button:hover {
+    transform: rotate(90deg);
+}
+
+.navbar .toggle {
+    background: var(--nav-toggle-bg);
+}
+
+.navbar .theme span {
+    background-color: transparent;
+    background-image: var(--theme-img);
+    background-size: cover;
+    filter: var(--nav-span-filter);
+}
+
+/* MAIN */
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.main-content button {
+    margin: 10px;
+    padding: 10px;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    border: 3px solid rgb(214, 161, 214);
+    background: rgb(214, 161, 214);
+    color: azure;
+}
+
+.main-content .time {
+    font-size: 6rem;
+    letter-spacing: .5rem;
+}
+
+.main-content .pop {
+    font-size: 2rem;
+    padding: 15px 20px;
+}
+
+.main-content .active {
+    border-top-color: purple;
+    border-left-color: purple;
+    border-bottom-color: rgb(187, 94, 187);
+    border-right-color: rgb(187, 94, 187);
+    background: linear-gradient(rgb(202, 142, 202), rgb(214, 161, 214));
+}
+
+/* MODAL */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--modal-bg);
+    display: none;
+}
+
+.modal ul {
+    list-style: none;
+}
+
+.modal-content {
+    background: var(--modal-content-bg);
+    box-shadow: 0 5px 10px 5px rgb(144, 134, 134);
+    border-radius: 5px;
+    margin: 50px auto;
+    width:fit-content;
+    padding: 10px;
+}
+
+.form-section {
+    position: relative;
+    border: 3px solid black;
+    border-radius: 10px;
+    margin: 20px;
+    padding: 20px;
+}
+
+.form-section li {
+    display: flex;
+    margin: 10px;
+}
+
+.form-section input[type="number"] {
+    appearance: none;
+    width: 4rem;
+    padding: 3px;
+    border: none;
+    border-radius: 5px;
+    margin: 0 .5rem;
+    background: rgb(227, 220, 220);
+}
+
+.form-section input[type="number"]:focus {
+    outline: 2px solid rgb(149, 149, 221);
+    box-shadow: 0 1px 2px 1px rgb(149, 149, 221);
+}
+
+.duration li, .autostart li {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal .form-label {
+    position: absolute;
+    top: -1rem;
+    background: var(--modal-content-bg);
+    padding: 3px;
+}
+
+.modal-content form .save-preferences {
+    display: block;
+    margin: 10px auto;
+    padding: 5px 20px;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    border: none;
+    background: var(--save-button-bg);
+    color: var(--save-button-color);
+}
+
+.autostart .toggle {
+    background: rgb(201, 213, 213);
+}
+
+.autostart .toggle span {
+    background: rgb(122, 115, 115);
+}
+
+@media screen and (max-width: 700px) {
+    .toggle {
+        width: 32px;
+        height: 16px;
+        border-radius: 8px;
+    }
+    
+    .toggle span {
+        width: 12px;
+        height: 12px;
+        top: 2px;
+        left: 2px;
+    }
+    
+    .toggle input[type="checkbox"]:checked + span {
+        transform: translateX(16px);
+    }
+}

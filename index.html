@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="main.js" defer></script>
+    <title>Document</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo.png" alt="logo">
+            <h1>Pomf</h1>
+        </div>
+        <div class="nav-controls">
+            <div class="toggle theme">
+                <input type="checkbox" id="theme-box">
+                <span></span>
+            </div>
+            <button class="settings-button"></button>
+        </div>
+    </nav>
+    <main class="main-content">
+        <div class="timers">
+            <button class="pomodoro">Pomodoro</button>
+            <button class="short-break active">Short Break</button>
+            <button class="long-break">Long Break</button>
+        </div>
+        <h2 class="time">22:35</h2>
+        <button class="pop active">STOP</button>
+        <p class="pomo-info">Pomo# 3</p>
+    </main>
+    <div class="modal">
+        <div class="modal-content">
+            <form class="settings" action="">
+                <div class="duration form-section">
+                    <h3 class="form-label">Duration</h3>
+                    <ul>
+                        <li>
+                            <label for="pominutes">Pomodoro : </label>
+                            <div class="time-wrapper">
+                                <input type="number" name="pominutes">
+                                <span> minutes</span>
+                            </div>
+                        </li>
+                        <li>
+                            <label for="short-duration">Short Break : </label>
+                            <div class="time-wrapper">
+                                <input type="number" name="short-duration">
+                                <span> minutes</span>
+                            </div>
+                        </li>
+                        <li>
+                            <label for="long-duration">Long Break : </label>
+                            <div class="time-wrapper">
+                                <input type="number" name="long-duration">
+                                <span> minutes</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="autostart form-section">
+                    <h3 class="form-label">Autostart</h3>
+                    <ul>
+                        <li>
+                            <label for="auto-pomos">Autostart Pomodoros</label>
+                            <div class="toggle toggle-button">
+                                <input type="checkbox" name="auto-pomos">
+                                <span></span>
+                            </div>
+                        </li>
+                        <li>
+                            <label for="auto-shorts">Autostart Short Breaks</label>
+                            <div class="toggle toggle-button">
+                                <input type="checkbox" name="auto-shorts">
+                                <span></span>
+                            </div>
+                        </li>
+                        <li>
+                            <label for="auto-longs">Autostart Long Breaks</label>
+                            <div class="toggle toggle-button">
+                                <input type="checkbox" name="auto-longs">
+                                <span></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="intervals form-section">
+                    <h3 class="form-label">Intervals</h3>
+                    <label for="interval-length">Long Break After <input type="number" name="interval-length"> Pomodoros.</label>
+                </div>
+                <button class="save-preferences">Save</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
