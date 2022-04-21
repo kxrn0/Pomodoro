@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="normalize.css">
     <link rel="stylesheet" href="styles.css">
     <script src="main.js" defer></script>
-    <title>Document</title>
+    <title>Pomodoro</title>
 </head>
 <body>
     <nav class="navbar">
@@ -25,13 +25,13 @@
     </nav>
     <main class="main-content">
         <div class="timers">
-            <button class="pomodoro">Pomodoro</button>
-            <button class="short-break active">Short Break</button>
+            <button class="pomodoro active">Pomodoro</button>
+            <button class="short-break">Short Break</button>
             <button class="long-break">Long Break</button>
         </div>
-        <h2 class="time">22:35</h2>
-        <button class="pop active">STOP</button>
-        <p class="pomo-info">Pomo# 3</p>
+        <h2 class="time">25:00</h2>
+        <button class="pop">START</button>
+        <p class="pomo-info">Pomo# 1</p>
     </main>
     <div class="modal">
         <div class="modal-content">
@@ -94,6 +94,14 @@
                 </div>
                 <button class="save-preferences">Save</button>
             </form>
+        </div>
+    </div>
+    <div class="warning-modal">
+        <div class="warning-modal-content">
+            <h3>Time is not over yet, do you really want to switch?</h3>
+            <div class="buttons">
+                <button class="yes">YES</button><button class="no">NO</button>
+            </div>
         </div>
     </div>
 </body>

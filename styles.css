@@ -10,6 +10,7 @@
     --modal-content-bg: rgb(255, 255, 255);
     --save-button-bg: rgb(153, 175, 215);
     --save-button-color: rgb(22, 25, 22);
+    --wrapper-bg: black;
 }
 
 :root.dark {
@@ -24,6 +25,7 @@
     --modal-content-bg: rgb(45, 27, 45);
     --save-button-bg: rgb(48, 24, 127);
     --save-button-color: azure;
+    --wrapper-bg: azure;
 }
 
 *,
@@ -154,7 +156,7 @@ body {
 
 .main-content .pop {
     font-size: 2rem;
-    padding: 15px 20px;
+    width: 200px;
 }
 
 .main-content .active {
@@ -163,11 +165,12 @@ body {
     border-bottom-color: rgb(187, 94, 187);
     border-right-color: rgb(187, 94, 187);
     background: linear-gradient(rgb(202, 142, 202), rgb(214, 161, 214));
+    transition: all .33s;
 }
 
 /* MODAL */
 
-.modal {
+.modal, .warning-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -183,7 +186,7 @@ body {
 
 .modal-content {
     background: var(--modal-content-bg);
-    box-shadow: 0 5px 10px 5px rgb(144, 134, 134);
+    box-shadow: 0 3px 10px 3px rgb(183, 168, 168);
     border-radius: 5px;
     margin: 50px auto;
     width:fit-content;
@@ -192,7 +195,7 @@ body {
 
 .form-section {
     position: relative;
-    border: 3px solid black;
+    border: 3px solid var(--wrapper-bg);
     border-radius: 10px;
     margin: 20px;
     padding: 20px;
@@ -247,6 +250,62 @@ body {
 
 .autostart .toggle span {
     background: rgb(122, 115, 115);
+}
+
+.warning-modal-content {
+    background: rgb(109, 161, 224);
+    box-shadow: 0 3px 10px 3px rgb(183, 168, 168);
+    border-radius: 5px;
+    margin: 50px auto;
+    width: 300px;
+    padding: 10px;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.warning-modal-content h3 {
+    background: azure;
+    width: 80%;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 20px;
+}
+
+.warning-modal .buttons {
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.warning-modal button {
+    width: 6rem;
+    font-size: 1.5rem;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+}
+
+.warning-modal .yes {
+    background: rgb(191, 235, 125);
+}
+
+.warning-modal .no {
+    background: rgb(196, 82, 82);
+    color: azure;
+}
+
+.warning-modal .yes:hover {
+    background: rgb(147, 223, 117);
+}
+
+.warning-modal .no:hover {
+    background: rgb(172, 77, 70);
+}
+
+.warning-modal button:active {
+    transform: scale(.99);
 }
 
 @media screen and (max-width: 700px) {
