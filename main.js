@@ -1,38 +1,5 @@
 //-------------------------------------------0------------------------------------------------
 
-const root = document.documentElement;
-const toggle = document.getElementById("theme-box");
-
-root.className = "light";
-toggle.addEventListener("click", () => {
-    if (toggle.checked) {
-        root.className = "dark";
-    }
-    else {
-        root.className = "light";
-    }
-});
-
-//-------------------------------------------1------------------------------------------------
-
-
-//-------------------------------------------0------------------------------------------------
-
-const autostartButtons = document.querySelectorAll(".autostart input[type='checkbox']");
-
-autostartButtons.forEach(box => box.addEventListener("click", () => {
-    const parent = box.parentElement;
-    const sibling = parent.querySelector("span");
-    if (box.checked) {
-        parent.style.background = "rgb(172, 217, 80)";
-        sibling.style.background = "azure";
-    }
-    else {
-        parent.style.background = "rgb(201, 213, 213)";
-        sibling.style.background = "rgb(122, 115, 115)";
-    }
-}));
-
 //-------------------------------------------1------------------------------------------------
 
 const pomoObj = (
@@ -48,7 +15,7 @@ const pomoObj = (
         longLength = 15 * 60;
         timeLeft = pomoLength;
         pomInterval = 4;
-        pomos = 1;
+        pomos = 0;
         state = pomoState;
         running = false;
 
@@ -74,8 +41,7 @@ const pomoObj = (
 
                 running = false;
                 if (state == pomoState) {
-                    pomos++;
-                    if (pomos % pomInterval) {
+                    if ((pomos + 1) % pomInterval) {
                         timeLeft = shortLength;
                         currentState = shortState;
                         if (autoShort) {
@@ -85,7 +51,7 @@ const pomoObj = (
                     }
                     else {
                         timeLeft = longLength;
-                        state = longState;
+                        currentState = longState;
                         if (autoLong) {
                             running = true;
                             run_timer();
@@ -96,10 +62,12 @@ const pomoObj = (
                     timeLeft = pomoLength;
                     currentState = pomoState;
                     if (autoPomo) {
+                        pomos++;
                         running = true;
                         run_timer();
                     }
                 }
+                state = currentState;
                 interface.update({ timeLeft, update: true, state: currentState });
             }
         }
@@ -162,6 +130,14 @@ const pomoObj = (
             return autoLong;
         }
 
+        function get_pomos() {
+            return pomos;
+        }
+
+        function set_time_left(seconds) {
+            timeLeft = seconds;
+        }
+
         function set_pomo_length(seconds) {
             pomoLength = seconds;
         }
@@ -191,18 +167,39 @@ const pomoObj = (
         }
 
         return {
-            getters: { get_state, get_pomo_interval, get_pomo_length, get_short_length, get_long_length, get_time_left, get_running, get_auto_pomo, get_auto_short, get_auto_long },
-            setters: { set_pomo_length, set_short_length, set_long_length, set_pomo_interval, set_auto_pomo, set_auto_short, set_auto_long, set_interface, set_state },
+            getters: { get_state, get_pomo_interval, get_pomo_length, get_short_length, get_long_length, get_time_left, get_running, get_auto_pomo, get_auto_short, get_auto_long, get_pomos },
+            setters: { set_time_left, set_pomo_length, set_short_length, set_long_length, set_pomo_interval, set_auto_pomo, set_auto_short, set_auto_long, set_interface, set_state },
             run_timer, stop_timer
         };
     }
 )();
 
+const stateButtons = document.querySelectorAll(".timers button");
+
 const interfaceObj = (
     () => {
+        const audio = new Audio("alarm.mp3");
+
         function update(state) {
             if (!state.update) {
                 change_time(state.timeLeft, time);
+            }
+            else {
+                change_css(root, pomoObj);
+                audio.play();
+                pomo.innerText = `Pomo# ${pomoObj.getters.get_pomos() + 1}`;
+                change_time(pomoObj.getters.get_time_left(), time);
+                if (!pomoObj.getters.get_running()) {
+                    pop.classList.remove("active");
+                    pop.innerText = "START";
+                }
+                stateButtons.forEach(button => {
+                    button.classList.remove("active");
+                    if (button.classList.contains(pomoObj.getters.get_state().toLowerCase())) {
+                        button.classList.add("active");
+                    }
+                });
+
             }
         }
 
@@ -210,7 +207,6 @@ const interfaceObj = (
     }
 )();
 
-const stateButtons = document.querySelectorAll(".timers button");
 const pop = document.querySelector(".pop");
 const time = document.querySelector(".time");
 const pomo = document.querySelector(".pomo-info");
@@ -218,18 +214,62 @@ const warningModal = document.querySelector(".warning-modal");
 const yes = document.querySelector(".yes");
 const no = document.querySelector(".no");
 const modal = document.querySelector(".modal");
+const closeModal = document.querySelector(".close-modal");
 const settingsButton = document.querySelector(".settings-button");
 const settings = document.querySelector(".settings");
 const save = document.querySelector(".save-preferences");
+const autostartButtons = document.querySelectorAll(".autostart input[type='checkbox']");
+const root = document.documentElement;
+const toggle = document.getElementById("theme-box");
 let newState;
 
 newState = "POMODORO";
 
+root.className = "light";
+toggle.addEventListener("click", () => {
+    if (toggle.checked)
+        root.className = "dark";
+    else
+        root.className = "light";
+    change_css(root, pomoObj);
+});
+
+autostartButtons.forEach(box => box.addEventListener("click", () => {
+    const parent = box.parentElement;
+    const sibling = parent.querySelector("span");
+    if (box.checked) {
+        parent.style.background = "rgb(172, 217, 80)";
+        sibling.style.background = "azure";
+    }
+    else {
+        parent.style.background = "rgb(201, 213, 213)";
+        sibling.style.background = "rgb(122, 115, 115)";
+    }
+}));
+
+closeModal.addEventListener("click", () => {
+    modal.style.display = "none";
+    autostartButtons.forEach(box => {
+        if (box.name == "auto-pomos") {
+            if (box.checked != pomoObj.getters.get_auto_pomo())
+                box.click();
+        }
+        else if (box.name == "auto-shorts") {
+            if (box.checked != pomoObj.getters.get_auto_short())
+                box.click();
+        }
+        else if (box.name == "auto-longs") {
+            if (box.checked != pomoObj.getters.get_auto_long())
+                box.click();
+        }
+    });
+});
+
 settingsButton.addEventListener("click", () => {
     modal.style.display = "block";
-    settings["pominutes"].value = Math.floor(pomoObj.getters.get_pomo_length() / 60);
-    settings["short-duration"].value = Math.floor(pomoObj.getters.get_short_length() / 60);
-    settings["long-duration"].value = Math.floor(pomoObj.getters.get_long_length() / 60);
+    settings["pominutes"].value = pomoObj.getters.get_pomo_length() / 60;
+    settings["short-duration"].value = pomoObj.getters.get_short_length() / 60;
+    settings["long-duration"].value = pomoObj.getters.get_long_length() / 60;
     settings["auto-pomos"].checked = pomoObj.getters.get_auto_pomo();
     settings["auto-shorts"].checked = pomoObj.getters.get_auto_short();
     settings["auto-longs"].checked = pomoObj.getters.get_auto_long();
@@ -249,12 +289,15 @@ save.addEventListener("click", event => {
     switch (pomoObj.getters.get_state()) {
         case "POMODORO":
             change_time(pomoObj.getters.get_pomo_length(), time);
+            pomoObj.setters.set_time_left(pomoObj.getters.get_pomo_length());
             break;
         case "SHORT-BREAK":
             change_time(pomoObj.getters.get_short_length(), time);
+            pomoObj.setters.set_time_left(pomoObj.getters.get_short_length());
             break;
         case "LONG-BREAK":
             change_time(pomoObj.getters.get_long_length(), time);
+            pomoObj.setters.set_time_left(pomoObj.getters.get_long_length());
             break;
     }
     modal.style.display = "none";
@@ -275,9 +318,10 @@ stateButtons.forEach(button => {
                     if (button != butt)
                         butt.classList.remove("active");
                 });
-                
+
                 pomoObj.setters.set_state(button.classList[0].toUpperCase());
                 change_time(pomoObj.getters.get_time_left(), time);
+                change_css(root, pomoObj);
             }
         }
     });
@@ -292,7 +336,7 @@ yes.addEventListener("click", () => {
 
     stateButtons.forEach(button => {
         button.classList.remove("active");
-        
+
         if (button.classList.contains(newState.toLowerCase()))
             button.classList.add("active");
     });
@@ -322,7 +366,7 @@ function change_time(seconds, time) {
     let duration;
 
     duration = format_time(seconds);
-    time.innerText = `${String(duration.minutes).padStart(2, '0')}:${String(duration.seconds).padStart(2, '0')}`;
+    time.innerText = `${String(Math.round(duration.minutes)).padStart(2, '0')}:${String(Math.round(duration.seconds)).padStart(2, '0')}`;
 }
 
 function format_time(seconds) {
@@ -333,4 +377,74 @@ function format_time(seconds) {
     seconds %= secsInMin;
 
     return { minutes, seconds };
+}
+
+function change_css(root, pomf) {
+    if (root.classList.contains("light")) {
+        switch (pomf.getters.get_state()) {
+            case "POMODORO":
+                root.style.setProperty("--nav-bg", "rgb(223, 105, 115)");
+                root.style.setProperty("--body-bg", "rgb(246, 228, 228)");
+                root.style.setProperty("--button-bg", "rgb(242, 114, 105)");
+                root.style.setProperty("--active-top", "rgb(221, 181, 176)");
+                root.style.setProperty("--active-bottom", "rgb(214, 170, 161)");
+                root.style.setProperty("--border-color", "rgb(242, 114, 105)");
+                root.style.setProperty("--border-color-active-top", "rgb(222, 65, 65)");
+                root.style.setProperty("--border-color-active-bottom", "rgb(128, 0, 21)");
+                break;
+            case "SHORT-BREAK":
+                root.style.setProperty("--nav-bg", "rgb(115, 205, 187)");
+                root.style.setProperty("--body-bg", "rgb(232, 248, 245)");
+                root.style.setProperty("--button-bg", "rgb(12, 154, 135)");
+                root.style.setProperty("--active-top", "rgb(144, 195, 184)");
+                root.style.setProperty("--active-bottom", "rgb(121, 174, 142)");
+                root.style.setProperty("--border-color", "rgb(12, 154, 135)");
+                root.style.setProperty("--border-color-active-top", "rgb(53, 189, 96)");
+                root.style.setProperty("--border-color-active-bottom", "rgb(0, 128, 23)");
+                break;
+            case "LONG-BREAK":
+                root.style.setProperty("--nav-bg", "rgb(150, 115, 205)");
+                root.style.setProperty("--body-bg", "rgb(200, 232, 248)");
+                root.style.setProperty("--button-bg", "rgb(214, 161, 214)");
+                root.style.setProperty("--active-top", "rgb(202, 142, 202)");
+                root.style.setProperty("--active-bottom", "rgb(214, 161, 214)");
+                root.style.setProperty("--border-color", "rgb(214, 161, 214)");
+                root.style.setProperty("--border-color-active-top", "purple");
+                root.style.setProperty("--border-color-active-bottom", "rgb(187, 94, 187)");
+                break;
+        }
+    }
+    else {
+        switch (pomf.getters.get_state()) {
+            case "POMODORO":
+                root.style.setProperty("--nav-bg", "rgb(149, 10, 65)");
+                root.style.setProperty("--body-bg", "rgb(91, 5, 5)");
+                root.style.setProperty("--button-bg", "rgb(242, 114, 105)");
+                root.style.setProperty("--active-top", "rgb(221, 181, 176)");
+                root.style.setProperty("--active-bottom", "rgb(214, 170, 161)");
+                root.style.setProperty("--border-color", "rgb(242, 114, 105)");
+                root.style.setProperty("--border-color-active-top", "rgb(222, 65, 65)");
+                root.style.setProperty("--border-color-active-bottom", "rgb(128, 0, 21)");
+                break;
+            case "SHORT-BREAK":
+                root.style.setProperty("--nav-bg", "rgb(115, 205, 187)");
+                root.style.setProperty("--body-bg", "rgb(232, 248, 245)");
+                root.style.setProperty("--button-bg", "rgb(12, 154, 135)");
+                root.style.setProperty("--active-top", "rgb(144, 195, 184)");
+                root.style.setProperty("--active-bottom", "rgb(121, 174, 142)");
+                root.style.setProperty("--border-color", "rgb(12, 154, 135)");
+                root.style.setProperty("--border-color-active-top", "rgb(53, 189, 96)");
+                root.style.setProperty("--border-color-active-bottom", "rgb(0, 128, 23)");
+                break;
+            case "LONG-BREAK":
+                root.style.setProperty("--nav-bg", "rgb(150, 115, 205)");
+                root.style.setProperty("--body-bg", "rgb(200, 232, 248)");
+                root.style.setProperty("--button-bg", "rgb(214, 161, 214)");
+                root.style.setProperty("--active-top", "rgb(202, 142, 202)");
+                root.style.setProperty("--active-bottom", "rgb(214, 161, 214)");
+                root.style.setProperty("--border-color", "rgb(214, 161, 214)");
+                root.style.setProperty("--border-color-active-top", "purple");
+                root.style.setProperty("--border-color-active-bottom", "rgb(187, 94, 187)");
+                break;
+        }    }
 }

@@ -1,11 +1,20 @@
 :root.light {
-    --body-bg: azure;
+    --body-bg: rgb(246, 228, 228);
     --nav-bg: rgb(223, 105, 115);
     --theme-img: url("images/sun.svg");
     --settings-filter: none;
-    --nav-toggle-bg: yellow;
+    --nav-toggle-bg: rgb(246, 246, 141);
     --nav-span-filter: none;
     --color: black;
+    --button-bg: rgb(242, 114, 105);
+    
+    --active-top: rgb(221, 181, 176);
+    --active-bottom: rgb(214, 170, 161);
+
+    --border-color: rgb(242, 114, 105);
+    --border-color-active-top: rgb(222, 65, 65);
+    --border-color-active-bottom: rgb(128, 0, 21);
+
     --modal-bg: rgb(212, 244, 244, .5);
     --modal-content-bg: rgb(255, 255, 255);
     --save-button-bg: rgb(153, 175, 215);
@@ -18,9 +27,18 @@
     --nav-bg: rgb(149, 10, 65);
     --theme-img: url("images/moon.svg");
     --settings-filter: invert(94%) sepia(40%) saturate(3535%) hue-rotate(171deg) brightness(114%) contrast(97%);
-    --nav-toggle-bg: purple;
+    --nav-toggle-bg: rgb(160, 74, 160);
     --nav-span-filter: invert(94%) sepia(40%) saturate(3535%) hue-rotate(171deg) brightness(114%) contrast(97%);
     --color: azure;
+    --button-bg: rgb(17, 130, 130);
+    
+    --active-top: rgb(202, 149, 142);
+    --active-bottom: rgb(214, 170, 161);
+
+    --border-color: rgb(170, 19, 19);
+    --border-color-active-top: red;
+    --border-color-active-bottom: purple;
+
     --modal-bg: rgb(38, 35, 35, .5);
     --modal-content-bg: rgb(45, 27, 45);
     --save-button-bg: rgb(48, 24, 127);
@@ -51,6 +69,7 @@ body {
     border-radius: 12px;
     background: rgb(28, 35, 93);
     transition: background-color .33s;
+    margin-right: 20px;
 }
 
 .toggle input[type="checkbox"] {
@@ -86,7 +105,6 @@ body {
 }
 
 .navbar .logo {
-    width: 10%;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -94,10 +112,10 @@ body {
 
 .navbar .logo img {
     width: 75px;
+    margin-right: 20px;
 }
 
 .nav-controls {
-    width: 10%;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -144,9 +162,10 @@ body {
     padding: 10px;
     font-size: 1.5rem;
     border-radius: 10px;
-    border: 3px solid rgb(214, 161, 214);
-    background: rgb(214, 161, 214);
+    border: 3px solid var(--border-color);
+    background: var(--button-bg);
     color: azure;
+    transition: background-color .33s;
 }
 
 .main-content .time {
@@ -160,11 +179,11 @@ body {
 }
 
 .main-content .active {
-    border-top-color: purple;
-    border-left-color: purple;
-    border-bottom-color: rgb(187, 94, 187);
-    border-right-color: rgb(187, 94, 187);
-    background: linear-gradient(rgb(202, 142, 202), rgb(214, 161, 214));
+    border-top-color: var(--border-color-active-top);
+    border-left-color: var(--border-color-active-top);
+    border-bottom-color: var(--border-color-active-bottom);
+    border-right-color: var(--border-color-active-bottom);
+    background: linear-gradient(var(--active-top), var(--active-bottom));
     transition: all .33s;
 }
 
@@ -191,6 +210,20 @@ body {
     margin: 50px auto;
     width:fit-content;
     padding: 10px;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    border: none;
+    filter: var(--settings-filter);
+    background-color: transparent;
+    background-image: url("images/close-circle.svg");
+    background-size: cover;
 }
 
 .form-section {
@@ -309,6 +342,14 @@ body {
 }
 
 @media screen and (max-width: 700px) {
+    /* .navbar .logo img {
+        width: 50px;
+    } */
+
+    .navbar .logo, .nav-controls {
+        width: fit-content;
+    }
+
     .toggle {
         width: 32px;
         height: 16px;
@@ -324,5 +365,30 @@ body {
     
     .toggle input[type="checkbox"]:checked + span {
         transform: translateX(16px);
+    }
+
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+    
+    .main-content button {
+        margin: 5px;
+        padding: 5px;
+        font-size: 1rem;
+        border-radius: 5px;
+    }
+    
+    .main-content .time {
+        font-size: 4rem;
+        letter-spacing: .5rem;
+    }
+    
+    .main-content .pop {
+        font-size: 1.5rem;
+        width: 150px;
     }
 }
