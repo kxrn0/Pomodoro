@@ -5,21 +5,21 @@
     --settings-filter: none;
     --nav-toggle-bg: rgb(246, 246, 141);
     --nav-span-filter: none;
-    --color: black;
+    --color: rgb(30, 26, 26);
     --button-bg: rgb(242, 114, 105);
-    
     --active-top: rgb(221, 181, 176);
     --active-bottom: rgb(214, 170, 161);
-
     --border-color: rgb(242, 114, 105);
     --border-color-active-top: rgb(222, 65, 65);
     --border-color-active-bottom: rgb(128, 0, 21);
-
     --modal-bg: rgb(212, 244, 244, .5);
     --modal-content-bg: rgb(255, 255, 255);
     --save-button-bg: rgb(153, 175, 215);
     --save-button-color: rgb(22, 25, 22);
     --wrapper-bg: black;
+    --warning-bg: rgb(109, 161, 224);
+    --warning-text-bg: azure;
+    --warning-bg-color: rgb(48, 40, 40);
 }
 
 :root.dark {
@@ -31,19 +31,19 @@
     --nav-span-filter: invert(94%) sepia(40%) saturate(3535%) hue-rotate(171deg) brightness(114%) contrast(97%);
     --color: azure;
     --button-bg: rgb(17, 130, 130);
-    
     --active-top: rgb(202, 149, 142);
     --active-bottom: rgb(214, 170, 161);
-
     --border-color: rgb(170, 19, 19);
     --border-color-active-top: red;
     --border-color-active-bottom: purple;
-
     --modal-bg: rgb(38, 35, 35, .5);
     --modal-content-bg: rgb(45, 27, 45);
     --save-button-bg: rgb(48, 24, 127);
     --save-button-color: azure;
     --wrapper-bg: azure;
+    --warning-bg: rgb(12, 12, 51);
+    --warning-text-bg: rgb(94, 136, 163);
+    --warning-bg-color: rgb(238, 228, 228);
 }
 
 *,
@@ -110,6 +110,12 @@ body {
     justify-content: space-around;
 }
 
+.navbar .logo h1 {
+    text-shadow: 1px 1px 1px red;
+    letter-spacing: .5rem;
+    font-family: monospace;
+}
+
 .navbar .logo img {
     width: 75px;
     margin-right: 20px;
@@ -157,12 +163,16 @@ body {
     padding: 20px;
 }
 
+.main-content .timers {
+    display: flex;
+}
+
 .main-content button {
     margin: 10px;
     padding: 10px;
     font-size: 1.5rem;
     border-radius: 10px;
-    border: 3px solid var(--border-color);
+    border: 5px solid var(--border-color);
     background: var(--button-bg);
     color: azure;
     transition: background-color .33s;
@@ -286,7 +296,7 @@ body {
 }
 
 .warning-modal-content {
-    background: rgb(109, 161, 224);
+    background: var(--warning-bg);
     box-shadow: 0 3px 10px 3px rgb(183, 168, 168);
     border-radius: 5px;
     margin: 50px auto;
@@ -299,7 +309,8 @@ body {
 }
 
 .warning-modal-content h3 {
-    background: azure;
+    background: var(--warning-text-bg);
+    color: var(--warning-bg-color);
     width: 80%;
     border-radius: 5px;
     padding: 5px;
@@ -342,10 +353,6 @@ body {
 }
 
 @media screen and (max-width: 700px) {
-    /* .navbar .logo img {
-        width: 50px;
-    } */
-
     .navbar .logo, .nav-controls {
         width: fit-content;
     }
@@ -376,12 +383,12 @@ body {
     }
     
     .main-content button {
-        margin: 5px;
-        padding: 5px;
+        margin: 4px;
+        padding: 4px;
         font-size: 1rem;
         border-radius: 5px;
     }
-    
+
     .main-content .time {
         font-size: 4rem;
         letter-spacing: .5rem;

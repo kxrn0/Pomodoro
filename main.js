@@ -380,37 +380,46 @@ function format_time(seconds) {
 }
 
 function change_css(root, pomf) {
+    switch (pomf.getters.get_state()) {
+        case "POMODORO":
+            root.style.setProperty("--button-bg", "rgb(242, 114, 105)");
+            root.style.setProperty("--active-top", "rgb(221, 181, 176)");
+            root.style.setProperty("--active-bottom", "rgb(214, 170, 161)");
+            root.style.setProperty("--border-color", "rgb(242, 114, 105)");
+            root.style.setProperty("--border-color-active-top", "rgb(222, 65, 65)");
+            root.style.setProperty("--border-color-active-bottom", "rgb(128, 0, 21)");
+            break;
+        case "SHORT-BREAK":
+            root.style.setProperty("--button-bg", "rgb(12, 154, 135)");
+            root.style.setProperty("--active-top", "rgb(144, 195, 184)");
+            root.style.setProperty("--active-bottom", "rgb(121, 174, 142)");
+            root.style.setProperty("--border-color", "rgb(12, 154, 135)");
+            root.style.setProperty("--border-color-active-top", "rgb(53, 189, 96)");
+            root.style.setProperty("--border-color-active-bottom", "rgb(0, 128, 23)");
+            break;
+        case "LONG-BREAK":
+            root.style.setProperty("--button-bg", "rgb(214, 161, 214)");
+            root.style.setProperty("--active-top", "rgb(202, 142, 202)");
+            root.style.setProperty("--active-bottom", "rgb(214, 161, 214)");
+            root.style.setProperty("--border-color", "rgb(214, 161, 214)");
+            root.style.setProperty("--border-color-active-top", "rgb(187, 94, 187)");
+            root.style.setProperty("--border-color-active-bottom", "purple");
+            break;
+    }
+    
     if (root.classList.contains("light")) {
         switch (pomf.getters.get_state()) {
             case "POMODORO":
                 root.style.setProperty("--nav-bg", "rgb(223, 105, 115)");
                 root.style.setProperty("--body-bg", "rgb(246, 228, 228)");
-                root.style.setProperty("--button-bg", "rgb(242, 114, 105)");
-                root.style.setProperty("--active-top", "rgb(221, 181, 176)");
-                root.style.setProperty("--active-bottom", "rgb(214, 170, 161)");
-                root.style.setProperty("--border-color", "rgb(242, 114, 105)");
-                root.style.setProperty("--border-color-active-top", "rgb(222, 65, 65)");
-                root.style.setProperty("--border-color-active-bottom", "rgb(128, 0, 21)");
                 break;
             case "SHORT-BREAK":
                 root.style.setProperty("--nav-bg", "rgb(115, 205, 187)");
                 root.style.setProperty("--body-bg", "rgb(232, 248, 245)");
-                root.style.setProperty("--button-bg", "rgb(12, 154, 135)");
-                root.style.setProperty("--active-top", "rgb(144, 195, 184)");
-                root.style.setProperty("--active-bottom", "rgb(121, 174, 142)");
-                root.style.setProperty("--border-color", "rgb(12, 154, 135)");
-                root.style.setProperty("--border-color-active-top", "rgb(53, 189, 96)");
-                root.style.setProperty("--border-color-active-bottom", "rgb(0, 128, 23)");
                 break;
             case "LONG-BREAK":
                 root.style.setProperty("--nav-bg", "rgb(150, 115, 205)");
                 root.style.setProperty("--body-bg", "rgb(200, 232, 248)");
-                root.style.setProperty("--button-bg", "rgb(214, 161, 214)");
-                root.style.setProperty("--active-top", "rgb(202, 142, 202)");
-                root.style.setProperty("--active-bottom", "rgb(214, 161, 214)");
-                root.style.setProperty("--border-color", "rgb(214, 161, 214)");
-                root.style.setProperty("--border-color-active-top", "purple");
-                root.style.setProperty("--border-color-active-bottom", "rgb(187, 94, 187)");
                 break;
         }
     }
@@ -418,33 +427,16 @@ function change_css(root, pomf) {
         switch (pomf.getters.get_state()) {
             case "POMODORO":
                 root.style.setProperty("--nav-bg", "rgb(149, 10, 65)");
-                root.style.setProperty("--body-bg", "rgb(91, 5, 5)");
-                root.style.setProperty("--button-bg", "rgb(242, 114, 105)");
-                root.style.setProperty("--active-top", "rgb(221, 181, 176)");
-                root.style.setProperty("--active-bottom", "rgb(214, 170, 161)");
-                root.style.setProperty("--border-color", "rgb(242, 114, 105)");
-                root.style.setProperty("--border-color-active-top", "rgb(222, 65, 65)");
-                root.style.setProperty("--border-color-active-bottom", "rgb(128, 0, 21)");
+                root.style.setProperty("--body-bg", "rgb(75, 5, 25)");
                 break;
             case "SHORT-BREAK":
-                root.style.setProperty("--nav-bg", "rgb(115, 205, 187)");
-                root.style.setProperty("--body-bg", "rgb(232, 248, 245)");
-                root.style.setProperty("--button-bg", "rgb(12, 154, 135)");
-                root.style.setProperty("--active-top", "rgb(144, 195, 184)");
-                root.style.setProperty("--active-bottom", "rgb(121, 174, 142)");
-                root.style.setProperty("--border-color", "rgb(12, 154, 135)");
-                root.style.setProperty("--border-color-active-top", "rgb(53, 189, 96)");
-                root.style.setProperty("--border-color-active-bottom", "rgb(0, 128, 23)");
+                root.style.setProperty("--nav-bg", "rgb(4, 131, 116)");
+                root.style.setProperty("--body-bg", "rgb(4, 39, 35)");
                 break;
             case "LONG-BREAK":
-                root.style.setProperty("--nav-bg", "rgb(150, 115, 205)");
-                root.style.setProperty("--body-bg", "rgb(200, 232, 248)");
-                root.style.setProperty("--button-bg", "rgb(214, 161, 214)");
-                root.style.setProperty("--active-top", "rgb(202, 142, 202)");
-                root.style.setProperty("--active-bottom", "rgb(214, 161, 214)");
-                root.style.setProperty("--border-color", "rgb(214, 161, 214)");
-                root.style.setProperty("--border-color-active-top", "purple");
-                root.style.setProperty("--border-color-active-bottom", "rgb(187, 94, 187)");
+                root.style.setProperty("--nav-bg", "rgb(51, 14, 111)");
+                root.style.setProperty("--body-bg", "rgb(2, 22, 32)");
                 break;
-        }    }
+        }
+    }
 }
