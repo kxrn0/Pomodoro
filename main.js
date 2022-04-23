@@ -1,7 +1,3 @@
-//-------------------------------------------0------------------------------------------------
-
-//-------------------------------------------1------------------------------------------------
-
 const pomoObj = (
     () => {
         const pomoState = "POMODORO";
@@ -329,6 +325,7 @@ stateButtons.forEach(button => {
 
 yes.addEventListener("click", () => {
     pomoObj.setters.set_state(newState);
+    change_css(root, pomoObj);
     change_time(pomoObj.getters.get_time_left(), time);
     warningModal.style.display = "none";
     pop.classList.remove("active");
