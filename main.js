@@ -4,7 +4,7 @@ const pomoObj = (
         const shortState = "SHORT-BREAK";
         const longState = "LONG-BREAK";
         let pomoLength, shortLength, longLength, timeLeft, pomInterval, pomos, state, running;
-        let autoPomo, autoShort, autoLong, pomKiller;
+        let autoPomo, autoShort, autoLong, pomKiller, interface;
 
         pomoLength = 25 * 60;
         shortLength = 5 * 60;
@@ -18,8 +18,6 @@ const pomoObj = (
         autoPomo = false;
         autoShort = false;
         autoLong = false;
-
-        let interface;
 
         function set_interface(interfaceObj) {
             interface = interfaceObj;
@@ -274,13 +272,20 @@ settingsButton.addEventListener("click", () => {
 
 save.addEventListener("click", event => {
     event.preventDefault();
-    pomoObj.setters.set_pomo_length(settings["pominutes"].value * 60);
-    pomoObj.setters.set_short_length(settings["short-duration"].value * 60);
-    pomoObj.setters.set_long_length(settings["long-duration"].value * 60);
+    let minutes, shortDuration, longDuration, intervalLength;
+
+    minutes = settings["pominutes"].value.replace(/\s/g, '');
+    shortDuration = settings["short-duration"].value.replace(/\s/g, '');
+    longDuration = settings["long-duration"].value.replace(/\s/g, '');
+    intervalLength = settings["interval-length"].value.replace(/\s/g, '');
+
+    pomoObj.setters.set_pomo_length((isNaN(minutes) || !minutes) ? 25 * 60 : minutes * 60);
+    pomoObj.setters.set_short_length((isNaN(shortDuration) || !shortDuration) ? 5 * 60 : shortDuration * 60);
+    pomoObj.setters.set_long_length((isNaN(longDuration) || !longDuration) ? 15 * 60 : longDuration * 60);
+    pomoObj.setters.set_pomo_interval((isNaN() || !intervalLength) ? 4 : intervalLength);
     pomoObj.setters.set_auto_pomo(settings["auto-pomos"].checked);
     pomoObj.setters.set_auto_short(settings["auto-shorts"].checked);
     pomoObj.setters.set_auto_long(settings["auto-longs"].checked);
-    pomoObj.setters.set_pomo_interval(settings["interval-length"].value);
 
     switch (pomoObj.getters.get_state()) {
         case "POMODORO":
